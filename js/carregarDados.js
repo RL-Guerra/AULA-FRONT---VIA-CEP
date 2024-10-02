@@ -3,7 +3,7 @@ import { dadosCep } from "./dados.js"
 //receber botão pesquisar no JS
 const botaoPesquisar = document.getElementById('pesquisar')
 
-
+//Função tradicional
 function validadarDados() {
     let caixaCep = String(document.getElementById('input-cep').value)
     let status = false
@@ -21,7 +21,8 @@ function validadarDados() {
 }
 
 //Função anonima
-const getDadosCep = function () {
+//Manipula dados local
+const getDadosCep =  function () {
 /*     let contador = 0
     while(contador < dadosCep.dados.length){
         console.log(dadosCep.dados[0].cep)
@@ -40,6 +41,20 @@ const getDadosCep = function () {
     }
    })
    return status
+}
+//Função anonima
+//Manipula dados da API ViaCep
+const getDadosCepAPI = async function(){
+    let caixaCep = document.getElementById('input-cep').value
+    let url = `https://viacep.com.br/ws/${caixaCep}/json/`
+    
+    //Realiza a requisição na API e aguarda o retorno dos dados
+    let res = await fetch(url)
+
+    //Converte o retorno dos dados em formato JSON
+    let dados = await res.json()
+
+    setDadosForm(dados)
 }
 
 //Arrow Function
@@ -60,7 +75,7 @@ botaoPesquisar.addEventListener('click', function () {
 
 botaoPesquisar.addEventListener('click', function () {
     if (!validadarDados()) {
-        if(!getDadosCep()){
+        if(!getDadosCepAPI()){
             alert('CEP não encontrado!')
         }
     }
